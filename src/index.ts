@@ -74,11 +74,15 @@ app.get('/api/extract', async (c) => {
 
 app.get('/health', (c) => c.json({ status: 'ok' }));
 
-const port = 3000;
-console.log(`Server is running on http://localhost:${port}`);
-console.log(`Payment address: ${RECEIVER_ADDRESS}`);
+// A PORT-ot a Render adja meg, ha nincs, akkor 3000-et használunk
+const port = Number(process.env.PORT) || 3000;
 
+// Fontos, hogy 0.0.0.0-n hallgasson a Render miatt
 serve({
   fetch: app.fetch,
-  port
+  port: port,
+  hostname: '0.0.0.0'
 });
+
+console.log(`Server is running on port ${port}`);
+console.log(`Payment address: ${RECEIVER_ADDRESS}`);
